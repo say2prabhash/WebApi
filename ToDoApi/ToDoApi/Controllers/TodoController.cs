@@ -9,7 +9,7 @@ using ToDoApi.Model;
 
 namespace ToDoApi.Controllers
 {
-    [Route("api/[ToDoController]")]
+    [Route("api/todo")]
     public class TodoController : Controller
     {
         private readonly TodoContext _context;
@@ -20,46 +20,46 @@ namespace ToDoApi.Controllers
 
             if (_context.TodoItems.Count() == 0)
             {
-                _context.TodoItems.Add(new TodoItem { Name = "Item1" });
+                _context.TodoItems.Add(new Person { Name = "Prabhash" });
                 _context.SaveChanges();
             }
         }
         // GET: api/values
         [HttpGet]
-        public IEnumerable<TodoItem> GetAll()
+        public IEnumerable<Person> GetAll()
         {
             return _context.TodoItems.ToList();
         }
 
         // GET api/values/5
         [HttpGet("{id}",Name ="GetTodo")]
-        public string Get(long id)
+        public IActionResult Get(long id)
         {
             var item = _context.TodoItems.FirstOrDefault(t => t.Id == id);
             if (item == null)
             {
-                return NotFound().ToString();
+                return NotFound();
             }
-            return (new ObjectResult(item)).ToString();
+            return (new ObjectResult(item));
         }
 
         // POST api/values
         [HttpPost]
-        public IActionResult Create([FromBody] TodoItem item)
+        public IActionResult Create([FromBody] Person person)
         {
-            if (item == null)
+            if (person == null)
             {
                 return BadRequest();
             }
 
-            _context.TodoItems.Add(item);
+            _context.TodoItems.Add(person);
             _context.SaveChanges();
 
-            return CreatedAtRoute("GetTodo", new { id = item.Id }, item);
+            return CreatedAtRoute("GetTodo", new { id = person.Id }, person);
         }
         // PUT api/values/5
         [HttpPut("{id}")]
-        public IActionResult Update(long id, [FromBody] TodoItem item)
+        public IActionResult Update(long id, [FromBody] Person item)
         {
             if (item == null || item.Id != id)
             {

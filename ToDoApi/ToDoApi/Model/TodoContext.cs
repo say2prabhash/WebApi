@@ -13,7 +13,7 @@ namespace ToDoApi.Model
         {
         }
 
-        public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<Person> TodoItems { get; set; }
 
     }
 }
